@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+        	'start_node = bye140_ros2.bye140_node:main'
         ],
     },
 )
