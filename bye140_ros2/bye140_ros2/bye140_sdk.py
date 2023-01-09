@@ -39,3 +39,6 @@ class BackYardGripper:
         cmd_args = "restart()" + "\n"
         self.sock.sendall(bytes(cmd_args, "utf-8"))
         return int(str(self.sock.recv(1024), "utf-8"))
+
+if __name__ == "__main__":
+    gripper=BackYardGripper()
