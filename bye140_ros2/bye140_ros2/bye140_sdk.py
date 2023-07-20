@@ -6,6 +6,7 @@ class BackYardGripper:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             self.sock.connect((self.host, self.port))
+            print("connection successful")
         except Exception as e:
             print(e)
 

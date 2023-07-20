@@ -1,7 +1,7 @@
 import re
 import rclpy
 from rclpy.node import Node
-from bye140_sdk import BackYardGripper
+from .bye140_sdk import BackYardGripper
 from bye140_msg.srv import CalibrateGripper, MoveTo, GetCalibrated, ShutdownGripper, RestartGripper
 from bye140_msg.msg import ByStatus
 
@@ -9,7 +9,7 @@ from bye140_msg.msg import ByStatus
 class BYE140Node(Node):
     def __init__(self):
         super().__init__('bye140_node')
-        self.declare_parameter('ip_host', '192.168.137.9')
+        self.declare_parameter('ip_host', '172.31.1.2')
         self.declare_parameter('ip_port', 9999)
         self.declare_parameter('status_frequency',1.0)
 
@@ -21,9 +21,9 @@ class BYE140Node(Node):
         self.shutdown_srv = self.create_service(ShutdownGripper, 'shutdown_gripper', self.shutdown_gripper_cb_)
         self.moveto_srv=self.create_service(MoveTo,'moveto',self.moveto_cb_)
         self.status_publisher=self.create_publisher(ByStatus,'by_status',10)
-        self.timers=self.create_timer(1/self.get_parameter('status_frequency').value,self.get_status_cb_)
+        self.timer=self.create_timer(1/self.get_parameter('status_frequency').value,self.get_status_cb_)
 
-        self.pattern=r"\[(.*),(.*),(?P<pos>.*),(?P<spd>.*),(?P<force>.*),(.*),(.*),(.*),(.*)\]\\n"
+        self.pattern="\[(.*),(.*),(?P<pos>.*),(?P<spd>.*),(?P<force>.*),(.*),(.*),(.*),(.*)\]\n"
 
 
     def calibrate_gripper_cb_(self, request, response):
